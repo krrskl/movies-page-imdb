@@ -23,7 +23,7 @@ export default ({ location }) => {
       setIsLooked(true);
       dispatch(searchMovie({ query }));
     }
-  });
+  }, [location, isLooked, dispatch]);
 
   /**
    * Function to render the components of movies

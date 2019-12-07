@@ -5,11 +5,12 @@ import {
   Card,
   Grid,
   TextField,
-  Button
+  IconButton
 } from "@material-ui/core";
 
 import SearchIcon from "@material-ui/icons/Search";
-import ClearIcon from "@material-ui/icons/Clear";
+
+import { SvgIcon } from "@material-ui/core";
 
 export default ({ history }) => {
   const [searchText, setSearchText] = useState("");
@@ -46,32 +47,29 @@ export default ({ history }) => {
             <label>Icono</label>
           </Grid>
         </Grid>
-        <TextField
-          value={searchText}
-          placeholder="Buscar..."
-          onChange={handleSearchTextChange}
-        />
 
         <Grid>
-          <Button
+          <TextField
+            value={searchText}
+            placeholder="Buscar..."
+            onChange={handleSearchTextChange}
+          />
+
+          {/* <Button
             variant="contained"
             color="secondary"
             startIcon={<ClearIcon />}
             onClick={handleCleanTextClick}
           >
             Limpiar
-          </Button>
+          </Button> */}
 
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<SearchIcon />}
-            onClick={handleSearchTextClick}
-          >
-            Buscar
-          </Button>
+          <IconButton color="primary" onClick={handleSearchTextClick}>
+            <SearchIcon />
+          </IconButton>
         </Grid>
       </Card>
+
     </Container>
   );
 };
