@@ -1,43 +1,77 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { useState } from "react";
+import {
+  Container,
+  Typography,
+  Card,
+  Grid,
+  TextField,
+  Button
+} from "@material-ui/core";
 
-import { getDemoRequest } from '../../redux/actions/demoActions';
+import SearchIcon from "@material-ui/icons/Search";
+import ClearIcon from "@material-ui/icons/Clear";
 
-import User from '../../components/User';
+export default ({ history }) => {
+  const [searchText, setSearchText] = useState("");
 
-class Home extends Component {
-	componentWillMount() {
-		this.props.getDemoRequest('hey');
-	}
-	render() {
-		const { users } = this.props;
+  const handleSearchTextChange = event => {
+    setSearchText(event.target.value);
+  };
 
-		let items = [];
-		if (typeof users !== 'undefined') {
-			items = users.map((value, index) => {
-				return <User key={index} {...value} />;
-			});
-		}
-		return <div>{items}</div>;
-	}
-}
+  /**
+   *  Function to capture of event click for the clean Button
+   *
+   */
+  const handleCleanTextClick = () => {
+    searchText("");
+  };
 
-const mapDispatchToProps = (dispatch, props) => {
-	return {
-		getDemoRequest: payload => {
-			dispatch(getDemoRequest(payload));
-		}
-	};
+  /**
+   *  Function to capture of event click for the search Button
+   * @param {*} event Value corresponding to the event dispatched from the DOM
+   */
+  const handleSearchTextClick = event => {
+    history.push(`/results?query=${searchText}`);
+  };
+
+  return (
+    <Container>
+      <Card>
+        <Grid container>
+          <Grid>
+            <Typography>Bienvenido!</Typography>
+          </Grid>
+
+          <Grid>
+            <label>Icono</label>
+          </Grid>
+        </Grid>
+        <TextField
+          value={searchText}
+          placeholder="Buscar..."
+          onChange={handleSearchTextChange}
+        />
+
+        <Grid>
+          <Button
+            variant="contained"
+            color="secondary"
+            startIcon={<ClearIcon />}
+            onClick={handleCleanTextClick}
+          >
+            Limpiar
+          </Button>
+
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<SearchIcon />}
+            onClick={handleSearchTextClick}
+          >
+            Buscar
+          </Button>
+        </Grid>
+      </Card>
+    </Container>
+  );
 };
-const mapStateToProps = state => {
-	return {
-		users: state.demoReducer[0]
-	};
-};
-
-Home.propTypes = {
-	dispatch: PropTypes.func
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
