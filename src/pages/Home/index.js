@@ -10,11 +10,11 @@ import {
 
 import SearchIcon from "@material-ui/icons/Search";
 
-import { WaveImage } from "./../../images";
+import { WaveImage, SearchingUndrawImage } from "./../../images";
 import styles from "./styles";
 
 export default ({ history }) => {
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText, open, setOpen] = useState("");
   const classes = styles();
 
   const handleSearchTextChange = event => {
@@ -22,12 +22,24 @@ export default ({ history }) => {
   };
 
   /**
-   *  Function to capture of event click for the clean Button
-   *
+   *  Function to open modal
    */
-  const handleCleanTextClick = () => {
-    searchText("");
+  const handleClickOpen = () => {
+    setOpen(true);
   };
+  
+  /**
+   *  Function to close modal
+   */
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const  handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSearchTextClick();
+    }
+  }
 
   /**
    *  Function to capture of event click for the search Button
@@ -39,22 +51,24 @@ export default ({ history }) => {
 
   return (
     <>
+      <SearchingUndrawImage className={classes.searchingUndraw}/>
       <Container className={classes.section}>
         <Grid className={classes.textCenter}>
-          <Typography variant="h4">Busca la película que desees</Typography>
+          <Typography variant="h3">Busca la película que desees</Typography>
         </Grid>
 
         <Grid className={classes.textCenter}>
-          <Typography variant="h5">y obten detalles sobre ella.</Typography>
+          <Typography variant="h4">y obten detalles sobre ella.</Typography>
         </Grid>
 
         <Card className={classes.card}>
           <Grid>
-            <TextField
+            <input
               value={searchText}
               placeholder="Buscar..."
               onChange={handleSearchTextChange}
               className={classes.searchInput}
+              onKeyDown={handleKeyDown}
             />
 
             {/* <Button
